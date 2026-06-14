@@ -1,6 +1,8 @@
 ---
 name: fix-cve
-description: Scan a container image for CVEs with Docker Scout and patch what can be fixed locally. Use when the user asks to "fix CVEs", "scan for vulnerabilities", or points at a Dockerfile / image tag and wants it hardened. Default scope is CRITICAL only; include HIGH only when the user asks.
+description: Scan a container image for CVEs with Trivy and patch what can be fixed locally. Use when the user asks to "fix CVEs", "scan for vulnerabilities", or points at a Dockerfile / image tag and wants it hardened. Default scope is CRITICAL only; include HIGH only when the user asks.
+version: 0.2.0
+source: https://github.com/null-ptr-exception/skills/tree/main/skills/fix-cve
 ---
 
 # Fix CVE
@@ -11,10 +13,7 @@ Scan a container image and apply minimal Dockerfile changes to resolve fixable C
 
 - **Default severity:** CRITICAL only.
 - **Include HIGH** only when the user explicitly asks ("also high", "crit+high", etc.).
-- **Scanner:** Docker Scout (`docker scout cves`). If not installed, offer to install via:
-  ```
-  curl -fsSL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s --
-  ```
+- **Scanner:** Trivy (`trivy image`). Install if missing (consult official docs for the platform).
 
 ## Workflow
 
@@ -23,10 +22,11 @@ Scan a container image and apply minimal Dockerfile changes to resolve fixable C
 - If user gives a Dockerfile / folder → build first with a local test tag (e.g. `<name>-cve-test`), then scan.
 
 ### 2. Scan
+Redirect full output to a temp file (needed for investigation if something looks off), then summarise.
 ```
-docker scout cves --only-severity critical <image>
+trivy image --severity CRITICAL --quiet <image> > /tmp/trivy.log 2>&1
 ```
-Add `high` to severity list only when requested.
+Add `HIGH` to the severity filter only when requested.
 
 ### 3. Classify each finding
 For every CVE, place it in one of two buckets:
@@ -51,7 +51,7 @@ Edit the Dockerfile with the smallest possible change:
 Rebuild and rescan:
 ```
 docker build -q -t <name>-cve-test <context>
-docker scout cves --only-severity critical <name>-cve-test
+trivy image --severity CRITICAL --quiet <name>-cve-test
 ```
 Confirm the fixable CVEs are gone.
 
