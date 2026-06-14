@@ -1,0 +1,9 @@
+{
+  "name": "null-ptr-exception-skills",
+  "version": "0.1.0",
+  "description": "Shared skills for CI/CD, security, and DevOps workflows",
+  "author": {
+    "name": "null-ptr-exception"
+  },
+  "repository": "https://github.com/null-ptr-exception/skills"
+}
