@@ -23,7 +23,7 @@ Scan a container image and apply minimal Dockerfile changes to resolve fixable C
 
 ### 2. Scan
 Redirect full output to a temp file (needed for investigation if something looks off), then summarise.
-```
+```bash
 trivy image --severity CRITICAL --quiet <image> > /tmp/trivy.log 2>&1
 ```
 Add `HIGH` to the severity filter only when requested.
@@ -49,7 +49,7 @@ Edit the Dockerfile with the smallest possible change:
 
 ### 5. Verify
 Rebuild and rescan:
-```
+```bash
 docker build -q -t <name>-cve-test <context>
 trivy image --severity CRITICAL --quiet <name>-cve-test
 ```

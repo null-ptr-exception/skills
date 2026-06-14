@@ -1,5 +1,7 @@
 ---
 name: github-actions-cicd
+version: 0.1.0
+source: https://github.com/null-ptr-exception/skills/tree/main/skills/github-actions-cicd
 description: This skill should be used when writing, modifying, or reviewing GitHub Actions workflow YAML files. Covers action version pinning, Docker build/push/release patterns, Node.js runtime deprecation, and trunk-based CI/CD design. Use when the user asks to "create a workflow", "fix CI", "update GitHub Actions", "add a release step", "pin action versions", or is editing .github/workflows/*.{yml,yaml} files.
 ---
 
