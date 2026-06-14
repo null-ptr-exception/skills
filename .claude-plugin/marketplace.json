@@ -1,0 +1,13 @@
+{
+  "name": "null-ptr-exception-skills",
+  "owner": {
+    "name": "null-ptr-exception"
+  },
+  "plugins": [
+    {
+      "name": "null-ptr-exception-skills",
+      "source": ".",
+      "description": "Shared skills for CI/CD, security, and DevOps workflows"
+    }
+  ]
+}
