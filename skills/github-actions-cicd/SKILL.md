@@ -1,6 +1,6 @@
 ---
 name: github-actions-cicd
-description: This skill should be used when writing, modifying, or reviewing GitHub Actions workflow YAML files. Covers action version pinning, Docker build/push/release patterns, Node.js runtime deprecation, and trunk-based CI/CD design. Use when the user asks to "create a workflow", "fix CI", "update GitHub Actions", "add a release step", "pin action versions", or is editing .github/workflows/*.yml files.
+description: This skill should be used when writing, modifying, or reviewing GitHub Actions workflow YAML files. Covers action version pinning, Docker build/push/release patterns, Node.js runtime deprecation, and trunk-based CI/CD design. Use when the user asks to "create a workflow", "fix CI", "update GitHub Actions", "add a release step", "pin action versions", or is editing .github/workflows/*.{yml,yaml} files.
 ---
 
 # GitHub Actions CI/CD Best Practices
@@ -22,7 +22,7 @@ Pin actions to full commit SHA. Add exact release tag in comment for auditabilit
 - uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6
 ```
 
-To find the SHA for a release tag:
+To find the SHA for a release tag (works for both annotated and lightweight tags — GitHub Actions resolves both correctly):
 ```bash
 gh api repos/{owner}/{repo}/git/ref/tags/{tag} --jq '.object.sha'
 ```
@@ -38,7 +38,7 @@ GitHub deprecates Node.js versions used by actions on a regular cycle. When CI l
 
 Check all actions in a workflow at once:
 ```bash
-grep -E '^\s+uses:' .github/workflows/*.yml
+grep -E '^\s+uses:' .github/workflows/*.{yml,yaml}
 ```
 
 Then look up the latest version for each and update both the SHA and the comment tag.
@@ -113,7 +113,7 @@ Use the generate-notes API to get auto-generated changelog, then append custom c
     gh release create "$VERSION" -F /tmp/release-notes.md
 ```
 
-**Why not `--generate-notes` flag directly?** It cannot be combined with a custom body. The API call returns the notes as a string that can be composed with additional content.
+**Why not `--generate-notes` flag directly?** You can combine `--generate-notes` with `--notes` to prepend custom text, but the API approach gives full control over composition — e.g. appending a Docker image section after the changelog rather than before it.
 
 ## Workflow Structure for Trunk-Based Development
 
@@ -144,5 +144,5 @@ docker:
 | `push: ${{ github.ref == 'refs/heads/main' }}` combines build+push | Separate into build (always) and push (conditional) steps |
 | `contents: read` on a job that creates tags/releases | Use `contents: write` |
 | Version check that fails the workflow | Use skip pattern with step outputs |
-| `--generate-notes` with custom `-n` body | Use the API to get notes, then compose |
+| Need to append (not prepend) custom content to release notes | Use the API to get notes, then compose |
 | Action pinned to `@v6` without SHA | Pin to SHA, add exact tag in comment |
