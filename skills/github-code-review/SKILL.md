@@ -1,8 +1,8 @@
 ---
-name: review
+name: github-code-review
 version: 0.1.0
 description: Opinionated PR code review — runs the official /code-review plugin, then adds DESIGN and TESTS follow-up layers via parallel agents. Always discusses findings with the user before posting to GitHub. Use when the user asks to "review a PR", "review PR #N", or wants a thorough code review with design and test coverage analysis.
-source: https://github.com/null-ptr-exception/skills/tree/main/skills/review
+source: https://github.com/null-ptr-exception/skills/tree/main/skills/github-code-review
 allowed-tools: Bash(gh *), Bash(git *)
 ---
 
