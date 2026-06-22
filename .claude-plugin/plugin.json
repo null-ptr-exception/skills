@@ -1,6 +1,6 @@
 {
   "name": "null-ptr-exception-skills",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Shared skills for CI/CD, security, and DevOps workflows",
   "author": {
     "name": "null-ptr-exception"
